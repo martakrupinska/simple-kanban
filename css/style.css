@@ -1,0 +1,146 @@
+:root {
+	--hight-card: 120px;
+	--background-color: #bdc3c7;
+	--purple-color: #9b59b6;
+	--turquoise-color: #1abc9c;
+	--blue-color: #3498db;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: #2c3e50;
+	background-color: #2c3e50;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 15px;
+}
+
+.success-icon {
+	color: #00b894;
+}
+.warning-icon {
+	color: #d63031;
+}
+
+.table-main {
+	margin: 20px;
+}
+
+.board {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.bgc-purple {
+	background-color: var(--purple-color);
+}
+.bgc-turquoise {
+	background-color: var(--turquoise-color);
+}
+.bgc-blue {
+	background-color: var(--blue-color);
+}
+
+.head {
+	display: flex;
+	flex-direction: row;
+	font-size: 25px;
+	height: calc(var(--hight-card) / 2);
+	width: 100%;
+	margin: 2px;
+}
+.head > p {
+	text-align: center;
+	width: 95%;
+	height: 100%;
+	padding: 10px;
+}
+
+.bcg-card-board {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin: 2px;
+	background-color: var(--background-color);
+}
+.card-line {
+	width: 5%;
+	height: 100%;
+}
+
+.card {
+	display: flex;
+	flex-direction: row;
+	height: var(--hight-card);
+	margin: 5px;
+	font-size: 20px;
+	/*	transform: rotateZ(-2deg);  2deg */
+	/* border: 1px solid #fdcb6e;   */
+	background-color: #ecf0f1; /* #e17055 #d63031 */
+	border-radius: 2%;
+}
+.card-info {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 5px;
+	width: 95%;
+}
+
+.material-symbols-outlined {
+	font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+}
+.inputPanel {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	height: calc(var(--hight-card) / 2);
+	padding: 10px;
+	margin: 2px;
+	background-color: var(--background-color);
+}
+input[type='text'] {
+	width: 50%;
+	height: 25px;
+}
+button {
+	right: 10px;
+	top: 20px;
+	width: 50px;
+	height: 20px;
+}
+/* input[type='date'] {
+	width: 30%;
+} */
+.hide {
+	display: none;
+}
+
+.card-dscrpt {
+	max-height: 54px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	/*white-space: nowrap; */
+}
+.card-week {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	font-size: 10px;
+}
+.card-week > p {
+	font-size: 10px;
+	text-align: end;
+}

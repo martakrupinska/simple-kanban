@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablica kanban</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <link rel="stylesheet" href="./css/style.css">
+
+
+</head>
+
+<body>
+    <div class="table-main">
+        <div class="board ">
+            <div class="head bgc-blue">
+                <p>To do</p>
+                <!--  <span class="material-symbols-outlined">add</span> -->
+            </div>
+            <div class="head bgc-purple">
+                <p>Doing</p>
+            </div>
+            <div class="head bgc-turquoise">
+                <p>Done</p>
+            </div>
+        </div>
+
+        <div class="inputPanel">
+            <input type="text" name="title" placeholder="Tytuł"></input>
+            <input type="week" name="week"></input>
+            <button clas="btn-add">Dodaj</button>
+        </div>
+
+        <div class="board">
+            <div class="bcg-card-board">
+                <div class="card">
+                    <div class="card-line bgc-blue"></div>
+                    <div class="card-info">
+                        <div class="card-dscrpt">Przygotowanie dokumentacji projektu X</div>
+                        <div class="card-week">
+                            <p>Tydzień 35</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-line bgc-blue"></div>
+                    <div class="card-info">
+                        <div class="card-dscrpt">Przygotowanie raportu - statystyki sprzedażowe</div>
+                        <div class="card-week">
+                            <span class="material-symbols-outlined warning-icon">
+                                priority_high
+                            </span>
+                            <p>Tydzień 34</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bcg-card-board">
+                <div class="card">
+                    <div class="card-line bgc-purple"></div>
+                    <div class="card-info">
+                        <div class="card-dscrpt">Spotkanie z klientem</div>
+                        <div class="card-week">
+                            <p>Tydzień 38</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-line bgc-purple"></div>
+                    <div class="card-info">
+                        <div class="card-dscrpt">Przygotowanie raportu</div>
+                        <div class="card-week">
+                            <span class="material-symbols-outlined warning-icon">
+                                priority_high
+                            </span>
+                            <p>Tydzień 33</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-line bgc-purple"></div>
+                    <div class="card-info">
+                        <div class="card-dscrpt">Szkolenie klienta</div>
+                        <div class="card-week">
+                            <p>Tydzień 34</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bcg-card-board">
+                <div class="card">
+                    <div class="card-line bgc-turquoise"></div>
+                    <div class="card-info">
+                        <div class="card-dscrpt">Przygotowanie harmonogramu wdrożenia</div>
+                        <div class="card-week">
+                            <p>Tydzień 30</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script src="js/script.js"></script>
+</body>
+
+</html>
