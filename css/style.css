@@ -65,6 +65,9 @@ body {
 	height: 100%;
 	padding: 10px;
 }
+.expand-more-icon {
+	align-self: end;
+}
 
 .bcg-card-board {
 	display: flex;
