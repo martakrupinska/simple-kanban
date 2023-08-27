@@ -1,13 +1,31 @@
-const exapndMoreIcon = document.querySelector('.expand-more-icon');
-const InputPanel = document.querySelector('.inputPanel');
+let InputPanel;
+let exapndMoreIcon;
+let titleNewCard;
+let weekNewCard;
+let btnNewCard;
+let firstColumn;
 
-const titleNewCard = InputPanel.querySelector("input[type='text']");
-const weekNewCard = InputPanel.querySelector("input[type='week']");
-const btnNewCard = InputPanel.querySelector('.btn-add');
+const main = () => {
+	prepareDOMElements();
+	prepareDOMEvents();
+};
 
-const firstColumn = document.querySelector("[data-place='1']");
+const prepareDOMElements = () => {
+	exapndMoreIcon = document.querySelector('.expand-more-icon');
+	InputPanel = document.querySelector('.inputPanel');
 
-const toolTip = document.querySelector('.toolTip');
+	titleNewCard = InputPanel.querySelector("input[type='text']");
+	weekNewCard = InputPanel.querySelector("input[type='week']");
+	btnNewCard = InputPanel.querySelector('.btn-add');
+
+	firstColumn = document.querySelector("[data-place='1']");
+};
+
+const prepareDOMEvents = () => {
+	exapndMoreIcon.addEventListener('click', showInputPanel);
+	btnNewCard.addEventListener('click', addNewTask);
+	InputPanel.addEventListener('keydown', enterKey);
+};
 
 const showInputPanel = () => {
 	InputPanel.classList.toggle('hide');
@@ -20,6 +38,7 @@ const showInputPanel = () => {
 };
 
 const addNewTask = () => {
+	const toolTip = document.querySelector('.toolTip');
 	if (titleNewCard.value === '') {
 		toolTip.style.opacity = '1';
 		return;
@@ -63,5 +82,10 @@ const addNewTask = () => {
 	titleNewCard.value = '';
 	weekNewCard.value = '';
 };
-exapndMoreIcon.addEventListener('click', showInputPanel);
-btnNewCard.addEventListener('click', addNewTask);
+const enterKey = (e) => {
+	if (e.key === 'Enter') {
+		addNewTask();
+	}
+};
+
+document.addEventListener('DOMContentLoaded', main);
