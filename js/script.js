@@ -7,6 +7,8 @@ const btnNewCard = InputPanel.querySelector('.btn-add');
 
 const firstColumn = document.querySelector("[data-place='1']");
 
+const toolTip = document.querySelector('.toolTip');
+
 const showInputPanel = () => {
 	InputPanel.classList.toggle('hide');
 
@@ -18,7 +20,8 @@ const showInputPanel = () => {
 };
 
 const addNewTask = () => {
-	if (titleNewCard.value === '' || weekNewCard.value === '') {
+	if (titleNewCard.value === '') {
+		toolTip.style.opacity = '1';
 		return;
 	}
 
@@ -27,6 +30,7 @@ const addNewTask = () => {
 <div class="card-info">
     <div class="card-dscrpt">
     */
+	toolTip.style.opacity = '0';
 
 	const cardClass = document.createElement('div');
 	cardClass.classList.add('card');
@@ -46,12 +50,18 @@ const addNewTask = () => {
 	cardDscrptClass.classList.add('card-dscrpt');
 
 	cardDscrptClass.textContent = titleNewCard.value;
+	cardInfoClass.appendChild(cardDscrptClass);
 
-	const cardWeekClass = document.createElement('div');
-	cardWeekClass.classList.add('card-week');
+	if (weekNewCard.value !== '') {
+		const cardWeekClass = document.createElement('div');
+		cardWeekClass.classList.add('card-week');
 
-	cardWeekClass.textContent = weekNewCard.value;
-	cardInfoClass.append(cardDscrptClass, cardWeekClass);
+		cardWeekClass.textContent = weekNewCard.value;
+		cardInfoClass.append(cardWeekClass);
+	}
+
+	titleNewCard.value = '';
+	weekNewCard.value = '';
 };
 exapndMoreIcon.addEventListener('click', showInputPanel);
 btnNewCard.addEventListener('click', addNewTask);
