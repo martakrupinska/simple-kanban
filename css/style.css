@@ -27,9 +27,6 @@ body {
 .success-icon {
 	color: #00b894;
 }
-.warning-icon {
-	color: #d63031;
-}
 
 .table-main {
 	margin: 20px;
@@ -77,7 +74,7 @@ body {
 	margin: 2px;
 	background-color: var(--background-color);
 }
-.card-line {
+.line {
 	width: 5%;
 	height: 100%;
 }
@@ -93,12 +90,33 @@ body {
 	background-color: #ecf0f1; /* #e17055 #d63031 */
 	border-radius: 2%;
 }
-.card-info {
+.info {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	padding: 5px;
 	width: 95%;
+}
+.action-icon {
+	display: flex;
+	flex-direction: column;
+	padding: 5px;
+	justify-content: space-between;
+	width: 30px;
+}
+
+.action-icon div > span {
+	font-size: 20px;
+	color: #bdc3c7;
+	cursor: pointer;
+}
+
+.action-icon div :hover {
+	color: #34495e;
+}
+
+.action-icon .red {
+	color: #d63031;
 }
 
 .material-symbols-outlined {
@@ -133,20 +151,20 @@ button {
 	display: none;
 }
 
-.card-dscrpt {
+.dscrpt {
 	max-height: 54px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	/*white-space: nowrap; */
 }
-.card-week {
+.week {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
 	align-items: center;
 	font-size: 10px;
 }
-.card-week > p {
+.week > p {
 	font-size: 10px;
 	text-align: end;
 }
