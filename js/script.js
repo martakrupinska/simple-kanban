@@ -69,10 +69,21 @@ const addNewTask = () => {
 		return;
 	}
 
-	/* <div class="card">
-<div class="card-line bgc-blue"></div>
-<div class="card-info">
-    <div class="card-dscrpt">
+	/*  <div class="card">
+                    <div class="line bgc-blue"></div>
+                    <div class="info">
+                        <div class="dscrpt">Przygotowanie dokumentacji projektu X</div>
+                        <div class="week">
+                            <p>Tydzień 35</p>
+                        </div>
+                    </div>
+                    <div class="action-icon">
+                        <div>
+                            <span class="edit material-symbols-outlined">edit</span>
+                            <span class="delete material-symbols-outlined">delete</span>
+                        </div>
+                    </div>
+                </div>
     */
 	toolTip.style.opacity = '0';
 
@@ -81,28 +92,48 @@ const addNewTask = () => {
 
 	firstColumn.appendChild(cardClass);
 
-	const cardLineClass = document.createElement('div');
-	cardLineClass.classList.add('card-line');
-	cardLineClass.classList.add('bgc-blue');
+	const lineClass = document.createElement('div');
+	lineClass.classList.add('line');
+	lineClass.classList.add('bgc-blue');
 
-	const cardInfoClass = document.createElement('div');
-	cardInfoClass.classList.add('card-info');
+	const infoClass = document.createElement('div');
+	infoClass.classList.add('info');
 
-	cardClass.append(cardLineClass, cardInfoClass);
+	cardClass.append(lineClass, infoClass);
 
-	const cardDscrptClass = document.createElement('div');
-	cardDscrptClass.classList.add('card-dscrpt');
+	const dscrptClass = document.createElement('div');
+	dscrptClass.classList.add('dscrpt');
 
-	cardDscrptClass.textContent = titleNewCard.value;
-	cardInfoClass.appendChild(cardDscrptClass);
+	dscrptClass.textContent = titleNewCard.value;
+	infoClass.appendChild(dscrptClass);
 
 	if (weekNewCard.value !== '') {
-		const cardWeekClass = document.createElement('div');
-		cardWeekClass.classList.add('card-week');
+		const weekClass = document.createElement('div');
+		weekClass.classList.add('week');
 
-		cardWeekClass.textContent = weekNewCard.value;
-		cardInfoClass.append(cardWeekClass);
+		weekClass.textContent = weekNewCard.value;
+		infoClass.append(weekClass);
 	}
+
+	const actionIconClass = document.createElement('div');
+	actionIconClass.classList.add('action-icon');
+
+	cardClass.appendChild(actionIconClass);
+
+	const divWithBtn = document.createElement('div');
+	actionIconClass.appendChild(divWithBtn);
+
+	const btnEdit = document.createElement('span');
+	btnEdit.classList.add('edit');
+	btnEdit.classList.add('material-symbols-outlined');
+	btnEdit.textContent = 'edit';
+
+	const btnDelete = document.createElement('span');
+	btnDelete.classList.add('delete');
+	btnDelete.classList.add('material-symbols-outlined');
+	btnDelete.textContent = 'delete';
+
+	divWithBtn.append(btnEdit, btnDelete);
 
 	titleNewCard.value = '';
 	weekNewCard.value = '';
