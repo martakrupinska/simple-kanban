@@ -48,14 +48,19 @@ const showInputPanel = (e) => {
 			cardDscrpt = card.querySelector('.dscrpt');
 			cardWeek = card.querySelector('.week');
 			titleNewCard.value = cardDscrpt.textContent;
+			weekNewCard.value = '2023-W' + cardWeek.textContent.match(/[0-9][0-9]$/);
 			btnNewCard.textContent = 'Zapisz';
+		} else {
+			btnNewCard.textContent = 'Dodaj';
+			titleNewCard.value = '';
+			weekNewCard.value = '';
 		}
 	}
 };
 
 const saveOrAddNewTask = () => {
 	if (btnNewCard.textContent === 'Zapisz') {
-		saveNewDscrpt();
+		saveNewData();
 	} else {
 		addNewTask();
 	}
@@ -110,8 +115,8 @@ const addNewTask = () => {
 	if (weekNewCard.value !== '') {
 		const weekClass = document.createElement('div');
 		weekClass.classList.add('week');
-
-		weekClass.textContent = weekNewCard.value;
+		console.log(weekClass);
+		weekClass.textContent = 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/);
 		infoClass.append(weekClass);
 	}
 
@@ -134,6 +139,7 @@ const addNewTask = () => {
 	btnDelete.textContent = 'delete';
 
 	divWithBtn.append(btnEdit, btnDelete);
+	main();
 
 	titleNewCard.value = '';
 	weekNewCard.value = '';
@@ -153,9 +159,10 @@ const checkClickMenu = (e) => {
 	}
 };
 
-const saveNewDscrpt = () => {
+const saveNewData = () => {
 	cardDscrpt.textContent = titleNewCard.value;
 	titleNewCard.value = '';
+	cardWeek.textContent = 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/);
 	btnNewCard.textContent = 'Dodaj';
 };
 
