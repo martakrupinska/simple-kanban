@@ -5,6 +5,9 @@ let weekNewCard;
 let btnNewCard;
 let firstColumn;
 let menuIcons;
+let card;
+let cardDscrpt;
+let cardWeek;
 
 const main = () => {
 	prepareDOMElements();
@@ -26,7 +29,7 @@ const prepareDOMElements = () => {
 
 const prepareDOMEvents = () => {
 	exapndMoreIcon.addEventListener('click', showInputPanel);
-	btnNewCard.addEventListener('click', addNewTask);
+	btnNewCard.addEventListener('click', saveOrAddNewTask);
 	InputPanel.addEventListener('keydown', enterKey);
 	menuIcons.forEach((menuIcon) => {
 		menuIcon.addEventListener('click', checkClickMenu);
@@ -40,17 +43,23 @@ const showInputPanel = (e) => {
 		exapndMoreIcon.style.transform = 'rotate(0deg)';
 	} else {
 		exapndMoreIcon.style.transform = 'rotate(-180deg)';
-	}
 
-	if (e.target.matches('.edit')) {
-		const parent = e.target.parentElement.parentElement.parentElement;
-		const dscrpt = parent.querySelector('.dscrpt');
-		const week = parent.querySelector('.week');
-		titleNewCard.value = dscrpt.textContent;
-		console.log(week);
-
-		btnNewCard.textContent = 'Zapisz';
+		if (e.target.matches('.edit')) {
+			cardDscrpt = card.querySelector('.dscrpt');
+			cardWeek = card.querySelector('.week');
+			titleNewCard.value = cardDscrpt.textContent;
+			btnNewCard.textContent = 'Zapisz';
+		}
 	}
+};
+
+const saveOrAddNewTask = () => {
+	if (btnNewCard.textContent === 'Zapisz') {
+		saveNewDscrpt();
+	} else {
+		addNewTask();
+	}
+	showInputPanel();
 };
 
 const addNewTask = () => {
@@ -100,16 +109,23 @@ const addNewTask = () => {
 };
 const enterKey = (e) => {
 	if (e.key === 'Enter') {
-		addNewTask();
+		saveOrAddNewTask();
 	}
 };
 
 const checkClickMenu = (e) => {
+	card = e.target.closest('.card');
 	if (e.target.matches('.edit')) {
 		showInputPanel(e);
-		//editDscrptIcon = e.target.closest('span');
-		console.log(e);
+	} else if (e.target.matches('.delete')) {
+		card.remove();
 	}
+};
+
+const saveNewDscrpt = () => {
+	cardDscrpt.textContent = titleNewCard.value;
+	titleNewCard.value = '';
+	btnNewCard.textContent = 'Dodaj';
 };
 
 document.addEventListener('DOMContentLoaded', main);
