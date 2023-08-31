@@ -1,6 +1,7 @@
-# simple-kanban
-Prosta tablica typu kanban zawierająca etapy: TO DO, IN PROCESS i DONE. Każde zadanie składa się z opisu zadania oraz numeru tygodnia wykonania. 
-W przypadku przekroczenia obecnego numeru tygodnia, wyświetla się czerwony wykrzyknik.
-Obsłużenie dodawanie, edytowanie i usuwanie zadań.
+# Prosta tablica typu kanban
+Tablica utworzona w ramach nauki / utrwalania wiedzy z kursów internetowych dotyczących JavaScript, HTML i CSS. Projekt ciagle jeszcze rozwijany także nie wszystkie funkcjonalności są już obsłużone.
 
-W niedalekiej przyszłości planowana obsługa drag and drop ;) 
+## Zakres funkcjonalności
+Tablica działa analogicznie do klasycznej listy zadań (to do listy) - dodawanie, edycja oraz usuwanie zadań.
+
+Wyróżniającym elementem jest obsługa przeciągania (zmiany stanu) zadania, sortowanie po numerze tygodnia i wyświetlanie alertów dla przekroczonych zadań.
