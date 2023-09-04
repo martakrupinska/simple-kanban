@@ -48,7 +48,10 @@ const showInputPanel = (e) => {
 			cardDscrpt = card.querySelector('.dscrpt');
 			cardWeek = card.querySelector('.week');
 			titleNewCard.value = cardDscrpt.textContent;
-			weekNewCard.value = '2023-W' + cardWeek.textContent.match(/[0-9][0-9]$/);
+			weekNewCard.value =
+				cardWeek !== null
+					? '2023-W' + cardWeek.textContent.match(/[0-9][0-9]$/)
+					: '';
 			btnNewCard.textContent = 'Zapisz';
 		} else {
 			btnNewCard.textContent = 'Dodaj';
@@ -59,10 +62,14 @@ const showInputPanel = (e) => {
 };
 
 const saveOrAddNewTask = () => {
+	let added = true;
 	if (btnNewCard.textContent === 'Zapisz') {
 		saveNewData();
 	} else {
-		addNewTask();
+		added = addNewTask();
+	}
+	if (!added) {
+		return;
 	}
 	showInputPanel();
 };
@@ -71,7 +78,7 @@ const addNewTask = () => {
 	const toolTip = document.querySelector('.toolTip');
 	if (titleNewCard.value === '') {
 		toolTip.style.opacity = '1';
-		return;
+		return false;
 	}
 
 	/*  <div class="card">
@@ -112,13 +119,13 @@ const addNewTask = () => {
 	dscrptClass.textContent = titleNewCard.value;
 	infoClass.appendChild(dscrptClass);
 
-	if (weekNewCard.value !== '') {
-		const weekClass = document.createElement('div');
-		weekClass.classList.add('week');
-		console.log(weekClass);
-		weekClass.textContent = 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/);
-		infoClass.append(weekClass);
-	}
+	const weekClass = document.createElement('div');
+	weekClass.classList.add('week');
+	weekClass.textContent =
+		weekNewCard.value !== ''
+			? 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/)
+			: '';
+	infoClass.append(weekClass);
 
 	const actionIconClass = document.createElement('div');
 	actionIconClass.classList.add('action-icon');
@@ -143,6 +150,7 @@ const addNewTask = () => {
 
 	titleNewCard.value = '';
 	weekNewCard.value = '';
+	return true;
 };
 const enterKey = (e) => {
 	if (e.key === 'Enter') {
@@ -162,8 +170,13 @@ const checkClickMenu = (e) => {
 const saveNewData = () => {
 	cardDscrpt.textContent = titleNewCard.value;
 	titleNewCard.value = '';
-	cardWeek.textContent = 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/);
+	cardWeek.textContent =
+		weekNewCard.value !== null
+			? 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/)
+			: '';
 	btnNewCard.textContent = 'Dodaj';
 };
+
+const checkCurrentWeekNumber = (e) => {};
 
 document.addEventListener('DOMContentLoaded', main);
