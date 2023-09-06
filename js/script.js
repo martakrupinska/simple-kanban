@@ -74,6 +74,23 @@ const saveOrAddNewTask = () => {
 	showInputPanel();
 };
 
+const checkCurrentWeekNumber = () => {
+	const currentDay = new Date();
+	const currentYear = new Date().getFullYear();
+	const firstJanuary = new Date(`${currentYear}-01-01`);
+
+	dayOfYear = Math.round(
+		(currentDay.getTime() - firstJanuary.getTime()) / (3600 * 24 * 1000)
+	);
+
+	numberOfCurrentWeek = Math.floor(dayOfYear / 7);
+
+	if (firstJanuary.getDay() < 5) {
+		numberOfCurrentWeek += 1;
+	}
+	return numberOfCurrentWeek;
+};
+
 const addNewTask = () => {
 	const toolTip = document.querySelector('.toolTip');
 	if (titleNewCard.value === '') {
@@ -121,6 +138,7 @@ const addNewTask = () => {
 
 	const weekClass = document.createElement('div');
 	weekClass.classList.add('week');
+
 	weekClass.textContent =
 		weekNewCard.value !== ''
 			? 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/)
@@ -146,6 +164,10 @@ const addNewTask = () => {
 	btnDelete.textContent = 'delete';
 
 	divWithBtn.append(btnEdit, btnDelete);
+
+	if (weekNewCard.value !== '') {
+		checkWeekNumber(cardClass);
+	}
 	main();
 
 	titleNewCard.value = '';
@@ -170,13 +192,41 @@ const checkClickMenu = (e) => {
 const saveNewData = () => {
 	cardDscrpt.textContent = titleNewCard.value;
 	titleNewCard.value = '';
-	cardWeek.textContent =
-		weekNewCard.value !== null
-			? 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/)
-			: '';
+	if (weekNewCard.value !== null) {
+		cardWeek.textContent = 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/);
+		checkWeekNumber(card);
+	} else {
+		cardWeek.textContent = '';
+	}
+
 	btnNewCard.textContent = 'Dodaj';
 };
 
-const checkCurrentWeekNumber = (e) => {};
+const checkWeekNumber = (card) => {
+	const currentWeekNumber = checkCurrentWeekNumber();
+	const additionalInfoIcon = card.querySelector('.action-icon');
+	let warningIcon = additionalInfoIcon.querySelector('.red');
+
+	let week = card.querySelector('.week');
+
+	week = week.textContent.match(/[0-9][0-9]$/);
+
+	if (currentWeekNumber >= week[0]) {
+		if (!warningIcon) {
+			warningIcon = document.createElement('span');
+			warningIcon.classList.add('material-symbols-outlined');
+			warningIcon.classList.add('red');
+			warningIcon.textContent = 'priority_high';
+
+			additionalInfoIcon.appendChild(warningIcon);
+		}
+
+		// <span class="material-symbols-outlined red">priority_high</span>
+	} else {
+		if (warningIcon) {
+			warningIcon.remove();
+		}
+	}
+};
 
 document.addEventListener('DOMContentLoaded', main);
