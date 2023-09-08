@@ -59,12 +59,18 @@ body {
 	border-radius: var(--border-radius-main);
 }
 .expand-more-panel {
-	height: calc(var(--hight-card) / 2);
 	margin: 2px;
 	border-radius: var(--border-radius-main);
 	width: 24px;
 	background-color: var(--background-color);
 }
+
+.expand-more-icon-place {
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+}
+
 .head > p {
 	text-align: center;
 	width: 95%;
@@ -79,7 +85,7 @@ body {
 .bcg-card-board {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
+	width: 33%;
 	margin: 2px;
 	background-color: var(--background-color);
 	border-radius: var(--border-radius-main);
