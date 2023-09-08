@@ -6,8 +6,8 @@ let btnNewCard;
 let firstColumn;
 let menuIcons;
 let card;
-let cardDscrpt;
-let cardWeek;
+let title;
+let weekInfo;
 
 const main = () => {
 	prepareDOMElements();
@@ -29,7 +29,7 @@ const prepareDOMElements = () => {
 
 const prepareDOMEvents = () => {
 	exapndMoreIcon.addEventListener('click', showInputPanel);
-	btnNewCard.addEventListener('click', saveOrAddNewTask);
+	btnNewCard.addEventListener('click', saveChangesOrAddNewTask);
 	InputPanel.addEventListener('keydown', enterKey);
 	menuIcons.forEach((menuIcon) => {
 		menuIcon.addEventListener('click', checkClickMenu);
@@ -45,12 +45,12 @@ const showInputPanel = (e) => {
 		exapndMoreIcon.style.transform = 'rotate(-180deg)';
 
 		if (e.target.matches('.edit')) {
-			cardDscrpt = card.querySelector('.dscrpt');
-			cardWeek = card.querySelector('.week');
-			titleNewCard.value = cardDscrpt.textContent;
+			title = card.querySelector('.dscrpt');
+			weekInfo = card.querySelector('.week');
+			titleNewCard.value = title.textContent;
 			weekNewCard.value =
-				cardWeek !== null
-					? '2023-W' + cardWeek.textContent.match(/[0-9][0-9]$/)
+			weekInfo !== null
+					? '2023-W' + weekInfo.textContent.match(/[0-9][0-9]$/)
 					: '';
 			btnNewCard.textContent = 'Zapisz';
 		} else {
@@ -61,34 +61,32 @@ const showInputPanel = (e) => {
 	}
 };
 
-const saveOrAddNewTask = () => {
-	let added = true;
+const saveChangesOrAddNewTask = () => {
 	if (btnNewCard.textContent === 'Zapisz') {
-		saveNewData();
+		saveChanges();
 	} else {
-		added = addNewTask();
-	}
-	if (!added) {
-		return;
+		if (!addNewTask()) {
+			return;
+		}
 	}
 	showInputPanel();
 };
 
 const checkCurrentWeekNumber = () => {
 	const currentDay = new Date();
-	const currentYear = new Date().getFullYear();
+	const currentYear = currentDay.getFullYear();
 	const firstJanuary = new Date(`${currentYear}-01-01`);
 
 	dayOfYear = Math.round(
 		(currentDay.getTime() - firstJanuary.getTime()) / (3600 * 24 * 1000)
 	);
 
-	numberOfCurrentWeek = Math.floor(dayOfYear / 7);
+	CurrentWeekNumber = Math.floor(dayOfYear / 7);
 
 	if (firstJanuary.getDay() < 5) {
-		numberOfCurrentWeek += 1;
+		CurrentWeekNumber += 1;
 	}
-	return numberOfCurrentWeek;
+	return CurrentWeekNumber;
 };
 
 const addNewTask = () => {
@@ -130,11 +128,11 @@ const addNewTask = () => {
 
 	cardClass.append(lineClass, infoClass);
 
-	const dscrptClass = document.createElement('div');
-	dscrptClass.classList.add('dscrpt');
+	const titleClass = document.createElement('div');
+	titleClass.classList.add('dscrpt');
 
-	dscrptClass.textContent = titleNewCard.value;
-	infoClass.appendChild(dscrptClass);
+	titleClass.textContent = titleNewCard.value;
+	infoClass.appendChild(titleClass);
 
 	const weekClass = document.createElement('div');
 	weekClass.classList.add('week');
@@ -174,9 +172,10 @@ const addNewTask = () => {
 	weekNewCard.value = '';
 	return true;
 };
+
 const enterKey = (e) => {
 	if (e.key === 'Enter') {
-		saveOrAddNewTask();
+		saveChangesOrAddNewTask();
 	}
 };
 
@@ -189,16 +188,15 @@ const checkClickMenu = (e) => {
 	}
 };
 
-const saveNewData = () => {
-	cardDscrpt.textContent = titleNewCard.value;
+const saveChanges = () => {
+	title.textContent = titleNewCard.value;
 	titleNewCard.value = '';
 	if (weekNewCard.value !== null) {
-		cardWeek.textContent = 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/);
+		weekInfo.textContent = 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/);
 		checkWeekNumber(card);
 	} else {
-		cardWeek.textContent = '';
+		weekInfo.textContent = '';
 	}
-
 	btnNewCard.textContent = 'Dodaj';
 };
 
