@@ -8,6 +8,10 @@ let menuIcons;
 let card;
 let title;
 let weekInfo;
+let dragged = null;
+let inProcessState;
+let doneState;
+
 
 const main = () => {
 	prepareDOMElements();
@@ -23,6 +27,8 @@ const prepareDOMElements = () => {
 	btnNewCard = InputPanel.querySelector('.btn-add');
 
 	firstColumn = document.querySelector("[data-place='1']");
+	inProcessState = document.querySelector("[data-place='2']");
+	doneState = document.querySelector("[data-place='3']");
 
 	menuIcons = document.querySelectorAll('.action-icon div');
 };
@@ -34,6 +40,13 @@ const prepareDOMEvents = () => {
 	menuIcons.forEach((menuIcon) => {
 		menuIcon.addEventListener('click', checkClickMenu);
 	});
+	document.addEventListener('dragstart', changeStateStart);
+	inProcessState.addEventListener('dragover', changeStateTarget);
+	inProcessState.addEventListener('drop', chageStateStop);
+	doneState.addEventListener('dragover', changeStateTarget);
+	doneState.addEventListener('drop', chageStateStop);
+	firstColumn.addEventListener('dragover', changeStateTarget);
+	firstColumn.addEventListener('drop', chageStateStop);
 };
 
 const showInputPanel = (e) => {
@@ -49,7 +62,7 @@ const showInputPanel = (e) => {
 			weekInfo = card.querySelector('.week');
 			titleNewCard.value = title.textContent;
 			weekNewCard.value =
-			weekInfo !== null
+				weekInfo !== null
 					? '2023-W' + weekInfo.textContent.match(/[0-9][0-9]$/)
 					: '';
 			btnNewCard.textContent = 'Zapisz';
@@ -116,6 +129,7 @@ const addNewTask = () => {
 
 	const cardClass = document.createElement('div');
 	cardClass.classList.add('card');
+	cardClass.setAttribute('draggable', true);
 
 	firstColumn.appendChild(cardClass);
 
@@ -224,6 +238,26 @@ const checkWeekNumber = (card) => {
 		if (warningIcon) {
 			warningIcon.remove();
 		}
+	}
+};
+
+const changeStateStart = (e) => {
+	card = e.target.closest('.card');
+	const startDragAndDrop = e.target.closest('[data-place]');
+	if (card) {
+		dragged = e.target;
+	}
+};
+const changeStateTarget = (e) => {
+	e.preventDefault();
+};
+const chageStateStop = (e) => {
+	e.preventDefault();
+	const targetDragAndDrop = e.target.closest('[data-place]');
+
+	if (targetDragAndDrop) {
+		dragged.parentNode.removeChild(dragged);
+		targetDragAndDrop.appendChild(dragged);
 	}
 };
 
