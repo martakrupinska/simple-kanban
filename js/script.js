@@ -139,6 +139,7 @@ const addNewTask = () => {
 	titleClass.classList.add('dscrpt');
 
 	titleClass.textContent = titleInput.value;
+	titleClass.setAttribute('title', titleClass.textContent);
 	infoClass.appendChild(titleClass);
 
 	const weekClass = document.createElement('div');
@@ -197,6 +198,7 @@ const checkClickMenu = (e) => {
 
 const saveChanges = () => {
 	title.textContent = titleInput.value;
+	title.setAttribute('title', title.textContent);
 	titleInput.value = '';
 	if (weekInput.value !== null) {
 		weekInfo.textContent = 'Tydzień ' + weekInput.value.match(/[0-9][0-9]$/);
