@@ -1,17 +1,14 @@
 let InputPanel;
 let exapndMoreIcon;
-let titleNewCard;
-let weekNewCard;
-let btnNewCard;
-let firstColumn;
-let menuIcons;
+let titleInput;
+let weekInput;
+let btnAddOrSave;
+let actionIcons;
 let card;
 let title;
 let weekInfo;
 let dragged = null;
-let inProcessState;
-let doneState;
-
+let states;
 
 const main = () => {
 	prepareDOMElements();
@@ -22,31 +19,27 @@ const prepareDOMElements = () => {
 	exapndMoreIcon = document.querySelector('.expand-more-icon');
 	InputPanel = document.querySelector('.inputPanel');
 
-	titleNewCard = InputPanel.querySelector("input[type='text']");
-	weekNewCard = InputPanel.querySelector("input[type='week']");
-	btnNewCard = InputPanel.querySelector('.btn-add');
+	titleInput = InputPanel.querySelector("input[type='text']");
+	weekInput = InputPanel.querySelector("input[type='week']");
+	btnAddOrSave = InputPanel.querySelector('.btn-add');
 
-	firstColumn = document.querySelector("[data-place='1']");
-	inProcessState = document.querySelector("[data-place='2']");
-	doneState = document.querySelector("[data-place='3']");
-
-	menuIcons = document.querySelectorAll('.action-icon div');
+	states = document.querySelectorAll('[data-place]');
+	actionIcons = document.querySelectorAll('.action-icon div');
 };
 
 const prepareDOMEvents = () => {
 	exapndMoreIcon.addEventListener('click', showInputPanel);
-	btnNewCard.addEventListener('click', saveChangesOrAddNewTask);
+	btnAddOrSave.addEventListener('click', saveChangesOrAddNewTask);
 	InputPanel.addEventListener('keydown', enterKey);
-	menuIcons.forEach((menuIcon) => {
-		menuIcon.addEventListener('click', checkClickMenu);
+	actionIcons.forEach((actionIcon) => {
+		actionIcon.addEventListener('click', checkClickMenu);
 	});
+
 	document.addEventListener('dragstart', changeStateStart);
-	inProcessState.addEventListener('dragover', changeStateTarget);
-	inProcessState.addEventListener('drop', chageStateStop);
-	doneState.addEventListener('dragover', changeStateTarget);
-	doneState.addEventListener('drop', chageStateStop);
-	firstColumn.addEventListener('dragover', changeStateTarget);
-	firstColumn.addEventListener('drop', chageStateStop);
+	states.forEach((state) => {
+		state.addEventListener('dragover', changeStateTarget);
+		state.addEventListener('drop', chageStateStop);
+	});
 };
 
 const showInputPanel = (e) => {
@@ -60,22 +53,22 @@ const showInputPanel = (e) => {
 		if (e.target.matches('.edit')) {
 			title = card.querySelector('.dscrpt');
 			weekInfo = card.querySelector('.week');
-			titleNewCard.value = title.textContent;
-			weekNewCard.value =
+			titleInput.value = title.textContent;
+			weekInput.value =
 				weekInfo !== null
 					? '2023-W' + weekInfo.textContent.match(/[0-9][0-9]$/)
 					: '';
-			btnNewCard.textContent = 'Zapisz';
+			btnAddOrSave.textContent = 'Zapisz';
 		} else {
-			btnNewCard.textContent = 'Dodaj';
-			titleNewCard.value = '';
-			weekNewCard.value = '';
+			btnAddOrSave.textContent = 'Dodaj';
+			titleInput.value = '';
+			weekInput.value = '';
 		}
 	}
 };
 
 const saveChangesOrAddNewTask = () => {
-	if (btnNewCard.textContent === 'Zapisz') {
+	if (btnAddOrSave.textContent === 'Zapisz') {
 		saveChanges();
 	} else {
 		if (!addNewTask()) {
@@ -104,7 +97,7 @@ const checkCurrentWeekNumber = () => {
 
 const addNewTask = () => {
 	const toolTip = document.querySelector('.toolTip');
-	if (titleNewCard.value === '') {
+	if (titleInput.value === '') {
 		toolTip.style.opacity = '1';
 		return false;
 	}
@@ -131,7 +124,7 @@ const addNewTask = () => {
 	cardClass.classList.add('card');
 	cardClass.setAttribute('draggable', true);
 
-	firstColumn.appendChild(cardClass);
+	states[0].appendChild(cardClass);
 
 	const lineClass = document.createElement('div');
 	lineClass.classList.add('line');
@@ -145,15 +138,15 @@ const addNewTask = () => {
 	const titleClass = document.createElement('div');
 	titleClass.classList.add('dscrpt');
 
-	titleClass.textContent = titleNewCard.value;
+	titleClass.textContent = titleInput.value;
 	infoClass.appendChild(titleClass);
 
 	const weekClass = document.createElement('div');
 	weekClass.classList.add('week');
 
 	weekClass.textContent =
-		weekNewCard.value !== ''
-			? 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/)
+		weekInput.value !== ''
+			? 'Tydzień ' + weekInput.value.match(/[0-9][0-9]$/)
 			: '';
 	infoClass.append(weekClass);
 
@@ -177,13 +170,13 @@ const addNewTask = () => {
 
 	divWithBtn.append(btnEdit, btnDelete);
 
-	if (weekNewCard.value !== '') {
+	if (weekInput.value !== '') {
 		checkWeekNumber(cardClass);
 	}
 	main();
 
-	titleNewCard.value = '';
-	weekNewCard.value = '';
+	titleInput.value = '';
+	weekInput.value = '';
 	return true;
 };
 
@@ -203,15 +196,15 @@ const checkClickMenu = (e) => {
 };
 
 const saveChanges = () => {
-	title.textContent = titleNewCard.value;
-	titleNewCard.value = '';
-	if (weekNewCard.value !== null) {
-		weekInfo.textContent = 'Tydzień ' + weekNewCard.value.match(/[0-9][0-9]$/);
+	title.textContent = titleInput.value;
+	titleInput.value = '';
+	if (weekInput.value !== null) {
+		weekInfo.textContent = 'Tydzień ' + weekInput.value.match(/[0-9][0-9]$/);
 		checkWeekNumber(card);
 	} else {
 		weekInfo.textContent = '';
 	}
-	btnNewCard.textContent = 'Dodaj';
+	btnAddOrSave.textContent = 'Dodaj';
 };
 
 const checkWeekNumber = (card) => {
