@@ -251,6 +251,24 @@ const chageStateStop = (e) => {
 	if (targetDragAndDrop) {
 		dragged.parentNode.removeChild(dragged);
 		targetDragAndDrop.appendChild(dragged);
+		changeCardColor(targetDragAndDrop);
+	}
+};
+
+const changeCardColor = (targetDragAndDrop) => {
+	const dataPlaceTarget = targetDragAndDrop.getAttribute('data-place');
+	const lineColor = dragged.querySelector('.line');
+
+	switch (dataPlaceTarget) {
+		case '1':
+			lineColor.classList.replace(lineColor.classList[1], 'bgc-blue');
+			break;
+		case '2':
+			lineColor.classList.replace(lineColor.classList[1], 'bgc-purple');
+			break;
+		case '3':
+			lineColor.classList.replace(lineColor.classList[1], 'bgc-turquoise');
+			break;
 	}
 };
 
