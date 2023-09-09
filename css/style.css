@@ -91,7 +91,7 @@ body {
 	border-radius: var(--border-radius-main);
 }
 .line {
-	width: 5%;
+	width: 10px;
 	height: 100%;
 	border-top-left-radius: var(--border-radius-main);
 	border-bottom-left-radius: var(--border-radius-main);
@@ -113,7 +113,7 @@ body {
 	flex-direction: column;
 	justify-content: space-between;
 	padding: 5px;
-	width: 95%;
+	width: calc(100% - 40px);
 }
 .action-icon {
 	display: flex;
@@ -181,10 +181,11 @@ button {
 }
 
 .dscrpt {
-	max-height: 54px;
+	display: -webkit-box;
+	max-height: 85px;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
 	overflow: hidden;
-	text-overflow: ellipsis;
-	/*white-space: nowrap; */
 }
 .week {
 	display: flex;
