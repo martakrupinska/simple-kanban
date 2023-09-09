@@ -68,6 +68,11 @@ const showInputPanel = (e) => {
 };
 
 const saveChangesOrAddNewTask = () => {
+	/* 	if(titleInput.textContent === '') {
+		const 
+		<div class="toolTip">Wpisz tytuł zadania!</div>
+	} */
+
 	if (btnAddOrSave.textContent === 'Zapisz') {
 		saveChanges();
 	} else {
