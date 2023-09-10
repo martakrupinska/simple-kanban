@@ -9,6 +9,7 @@ let title;
 let weekInfo;
 let dragged = null;
 let states;
+let toolTip;
 
 const main = () => {
 	prepareDOMElements();
@@ -45,6 +46,10 @@ const prepareDOMEvents = () => {
 const showInputPanel = (e) => {
 	InputPanel.classList.toggle('hide');
 
+	if (toolTip) {
+		removeToolTip();
+	}
+
 	if (InputPanel.classList.contains('hide')) {
 		exapndMoreIcon.style.transform = 'rotate(0deg)';
 	} else {
@@ -68,19 +73,30 @@ const showInputPanel = (e) => {
 };
 
 const saveChangesOrAddNewTask = () => {
-	/* 	if(titleInput.textContent === '') {
-		const 
-		<div class="toolTip">Wpisz tytuł zadania!</div>
-	} */
+	if (titleInput.value === '') {
+		createToolTip();
+		return;
+	}
 
 	if (btnAddOrSave.textContent === 'Zapisz') {
 		saveChanges();
 	} else {
-		if (!addNewTask()) {
-			return;
-		}
+		addNewTask();
 	}
+
 	showInputPanel();
+};
+
+const createToolTip = () => {
+	toolTip = document.createElement('div');
+	toolTip.classList.add('toolTip');
+	toolTip.textContent = 'Wpisz tytuł zadania!';
+	toolTip.style.opacity = '1';
+	InputPanel.appendChild(toolTip);
+	console.log('aaa');
+};
+const removeToolTip = () => {
+	toolTip.remove();
 };
 
 const checkCurrentWeekNumber = () => {
@@ -91,22 +107,19 @@ const checkCurrentWeekNumber = () => {
 	dayOfYear = Math.round(
 		(currentDay.getTime() - firstJanuary.getTime()) / (3600 * 24 * 1000)
 	);
+	console.log(dayOfYear);
 
-	CurrentWeekNumber = Math.floor(dayOfYear / 7);
+	let currentWeekNumber = Math.floor(dayOfYear / 7);
+	console.log(currentWeekNumber);
 
 	if (firstJanuary.getDay() < 5) {
-		CurrentWeekNumber += 1;
+		currentWeekNumber += 1;
 	}
-	return CurrentWeekNumber;
+	console.log(currentWeekNumber);
+	return currentWeekNumber;
 };
 
 const addNewTask = () => {
-	const toolTip = document.querySelector('.toolTip');
-	if (titleInput.value === '') {
-		toolTip.style.opacity = '1';
-		return false;
-	}
-
 	/*  <div class="card">
                     <div class="line bgc-blue"></div>
                     <div class="info">
@@ -123,7 +136,6 @@ const addNewTask = () => {
                     </div>
                 </div>
     */
-	toolTip.style.opacity = '0';
 
 	const cardClass = document.createElement('div');
 	cardClass.classList.add('card');
@@ -183,7 +195,6 @@ const addNewTask = () => {
 
 	titleInput.value = '';
 	weekInput.value = '';
-	return true;
 };
 
 const enterKey = (e) => {
