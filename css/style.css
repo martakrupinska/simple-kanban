@@ -129,17 +129,11 @@ body {
 	cursor: pointer;
 }
 
-.action-icon div + span {
-	font-size: 20px;
-	align-self: center;
-}
-
 .action-icon div :hover {
 	color: #34495e;
 }
-
-.action-icon .red {
-	color: #d63031;
+.warning-color {
+	color: #e74c3c;
 }
 
 .material-symbols-outlined {
@@ -200,7 +194,7 @@ button {
 .week {
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-end;
+	justify-content: flex-start;
 	align-items: center;
 	font-size: 10px;
 }
@@ -215,6 +209,9 @@ button {
 	right: 50%;
 	padding: 0 5px;
 	/*opacity: 0; */
+}
+.arrow {
+	opacity: 0;
 }
 
 @media (max-width: 672px) {
@@ -245,14 +242,14 @@ button {
 	.action-icon div > span {
 		font-size: 13px;
 	}
-	.action-icon div + span {
-		font-size: 15px;
-	}
 	button {
 		width: 50px;
 	}
 	input[type='week'] {
 		width: 90px;
+	}
+	.arrow {
+		opacity: 1;
 	}
 }
 
@@ -265,5 +262,8 @@ button {
 	}
 	.dscrpt {
 		font-size: 16px;
+	}
+	.arrow {
+		opacity: 1;
 	}
 }

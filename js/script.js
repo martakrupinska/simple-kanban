@@ -100,6 +100,8 @@ const removeToolTip = () => {
 };
 
 const checkCurrentWeekNumber = () => {
+	let currentWeekNumber;
+
 	const currentDay = new Date();
 	const currentYear = currentDay.getFullYear();
 	const firstJanuary = new Date(`${currentYear}-01-01`);
@@ -109,12 +111,17 @@ const checkCurrentWeekNumber = () => {
 	);
 	console.log(dayOfYear);
 
-	let currentWeekNumber = Math.floor(dayOfYear / 7);
-	console.log(currentWeekNumber);
+	console.log(`modulo: ` + (dayOfYear % 7));
 
+	if (dayOfYear % 7 === 0) {
+		currentWeekNumber = dayOfYear / 7 - 1;
+	} else {
+		currentWeekNumber = Math.floor(dayOfYear / 7);
+	}
 	if (firstJanuary.getDay() < 5) {
 		currentWeekNumber += 1;
 	}
+
 	console.log(currentWeekNumber);
 	return currentWeekNumber;
 };
@@ -180,13 +187,26 @@ const addNewTask = () => {
 	btnEdit.classList.add('edit');
 	btnEdit.classList.add('material-symbols-outlined');
 	btnEdit.textContent = 'edit';
+	btnEdit.title = 'Edytuj';
 
 	const btnDelete = document.createElement('span');
 	btnDelete.classList.add('delete');
 	btnDelete.classList.add('material-symbols-outlined');
 	btnDelete.textContent = 'delete';
+	btnDelete.title = 'Usuń';
 
 	divWithBtn.append(btnEdit, btnDelete);
+
+	const divWithArrowBtn = document.createElement('div');
+	actionIconClass.appendChild(divWithArrowBtn);
+
+	const btnArrow = document.createElement('span');
+	btnArrow.classList.add('arrow');
+	btnArrow.classList.add('material-symbols-outlined');
+	btnArrow.textContent = 'arrow_forward';
+	btnArrow.title = 'Przesuń w prawo';
+
+	divWithArrowBtn.appendChild(btnArrow);
 
 	if (weekInput.value !== '') {
 		checkWeekNumber(cardClass);
@@ -227,27 +247,20 @@ const saveChanges = () => {
 
 const checkWeekNumber = (card) => {
 	const currentWeekNumber = checkCurrentWeekNumber();
-	const additionalInfoIcon = card.querySelector('.action-icon');
-	let warningIcon = additionalInfoIcon.querySelector('.red');
 
-	let week = card.querySelector('.week');
+	const week = card.querySelector('.week');
+	let warning = week.classList.contains('warning-color');
+	const weekNumber = week.textContent.match(/[0-9][0-9]$/);
 
-	week = week.textContent.match(/[0-9][0-9]$/);
-
-	if (currentWeekNumber >= week[0]) {
-		if (!warningIcon) {
-			warningIcon = document.createElement('span');
-			warningIcon.classList.add('material-symbols-outlined');
-			warningIcon.classList.add('red');
-			warningIcon.textContent = 'priority_high';
-
-			additionalInfoIcon.appendChild(warningIcon);
+	if (currentWeekNumber >= weekNumber[0]) {
+		if (!warning) {
+			week.classList.add('warning-color');
+			console.log(warning);
 		}
-
-		// <span class="material-symbols-outlined red">priority_high</span>
 	} else {
-		if (warningIcon) {
-			warningIcon.remove();
+		if (warning) {
+			week.classList.remove('warning-colo');
+			console.log(warning);
 		}
 	}
 };
@@ -276,16 +289,37 @@ const chageStateStop = (e) => {
 const changeCardColor = (targetDragAndDrop) => {
 	const dataPlaceTarget = targetDragAndDrop.getAttribute('data-place');
 	const lineColor = dragged.querySelector('.line');
+	const arrowIcon = dragged.querySelector('.arrow');
+	console.log(arrowIcon);
+
+	const back = document.createElement('span');
+	back.classList.add('material-symbols-outlined');
+	back.textContent = 'arrow_back';
+	back.title = 'Przesuń w lewo';
+
+	const forward = document.createElement('span');
+	forward.classList.add('material-symbols-outlined');
+	forward.textContent = 'arrow_forward';
+	forward.title = 'Przesuń w prawo';
+
+	// <span class=" aterial-symbols-outlined" title="Przesuń w lewo">arrow_back</span>
+	//<span class="material-symbols-outlined" title="Przesuń w prawo">arrow_forward</span>
 
 	switch (dataPlaceTarget) {
 		case '1':
 			lineColor.classList.replace(lineColor.classList[1], 'bgc-blue');
+			arrowIcon.removeChild(back);
+			//arrowIcon.appendChild(forward);
 			break;
 		case '2':
 			lineColor.classList.replace(lineColor.classList[1], 'bgc-purple');
+			arrowIcon.removeChild(back, forward);
+			arrowIcon.appendChild(back, forward);
 			break;
 		case '3':
 			lineColor.classList.replace(lineColor.classList[1], 'bgc-turquoise');
+			arrowIcon.removeChild(forward, back);
+			arrowIcon.appendChild(back);
 			break;
 	}
 };
