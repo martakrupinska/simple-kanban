@@ -10,6 +10,7 @@ let weekInfo;
 let dragged = null;
 let states;
 let toolTip;
+let arrowIcons;
 
 const main = () => {
 	prepareDOMElements();
@@ -26,6 +27,8 @@ const prepareDOMElements = () => {
 
 	states = document.querySelectorAll('[data-place]');
 	actionIcons = document.querySelectorAll('.action-icon div');
+
+	arrowIcons = document.querySelectorAll('.arrow');
 };
 
 const prepareDOMEvents = () => {
@@ -34,6 +37,10 @@ const prepareDOMEvents = () => {
 	InputPanel.addEventListener('keydown', enterKey);
 	actionIcons.forEach((actionIcon) => {
 		actionIcon.addEventListener('click', checkClickMenu);
+	});
+
+	arrowIcons.forEach((arrowIcon) => {
+		arrowIcon.addEventListener('click', clickArrowIcon);
 	});
 
 	document.addEventListener('dragstart', changeStateStart);
@@ -286,10 +293,9 @@ const chageStateStop = (e) => {
 	}
 };
 
-const changeCardColor = (targetDragAndDrop) => {
-	const dataPlaceTarget = targetDragAndDrop.getAttribute('data-place');
-	const lineColor = dragged.querySelector('.line');
-	const arrowIcon = dragged.querySelector('.arrow');
+const changeState = (state, card) => {
+	const lineColor = card.querySelector('.line');
+	const arrowIcon = card.querySelector('.arrow');
 
 	const back = document.createElement('span');
 	back.classList.add('material-symbols-outlined');
@@ -301,28 +307,25 @@ const changeCardColor = (targetDragAndDrop) => {
 	forward.textContent = 'arrow_forward';
 	forward.title = 'Przesuń w prawo';
 
-	// <span class=" aterial-symbols-outlined" title="Przesuń w lewo">arrow_back</span>
-	//<span class="material-symbols-outlined" title="Przesuń w prawo">arrow_forward</span>
-
-	switch (dataPlaceTarget) {
-		case '1':
+	switch (parseInt(state)) {
+		case 1:
 			lineColor.classList.replace(lineColor.classList[1], 'bgc-blue');
 
 			while (arrowIcon.children[0]) {
 				arrowIcon.removeChild(arrowIcon.children[0]);
 			}
-
 			arrowIcon.appendChild(forward);
-
 			break;
-		case '2':
+
+		case 2:
 			lineColor.classList.replace(lineColor.classList[1], 'bgc-purple');
 			while (arrowIcon.children[0]) {
 				arrowIcon.removeChild(arrowIcon.children[0]);
 			}
 			arrowIcon.append(back, forward);
 			break;
-		case '3':
+
+		case 3:
 			lineColor.classList.replace(lineColor.classList[1], 'bgc-turquoise');
 			while (arrowIcon.children[0]) {
 				arrowIcon.removeChild(arrowIcon.children[0]);
@@ -330,6 +333,34 @@ const changeCardColor = (targetDragAndDrop) => {
 			arrowIcon.appendChild(back);
 			break;
 	}
+};
+
+const changeCardColor = (targetDragAndDrop) => {
+	const dataPlaceTarget = targetDragAndDrop.getAttribute('data-place');
+
+	changeState(dataPlaceTarget, dragged);
+};
+
+const clickArrowIcon = (e) => {
+	let target;
+	const dataPlace = e.target
+		.closest('.bcg-card-board')
+		.getAttribute('data-place');
+
+	const arrowIconType = e.target.textContent;
+
+	if (arrowIconType === 'arrow_forward') {
+		target = parseInt(dataPlace) + 1;
+	} else if (arrowIconType === 'arrow_back') {
+		target = dataPlace - 1;
+	}
+
+	if (target) {
+		const targetPlace = document.querySelector(`[data-place="` + target + `"]`);
+		card.parentNode.removeChild(card);
+		targetPlace.appendChild(card);
+	}
+	changeState(target, card);
 };
 
 document.addEventListener('DOMContentLoaded', main);
