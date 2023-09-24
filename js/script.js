@@ -290,7 +290,6 @@ const changeCardColor = (targetDragAndDrop) => {
 	const dataPlaceTarget = targetDragAndDrop.getAttribute('data-place');
 	const lineColor = dragged.querySelector('.line');
 	const arrowIcon = dragged.querySelector('.arrow');
-	console.log(arrowIcon);
 
 	const back = document.createElement('span');
 	back.classList.add('material-symbols-outlined');
@@ -308,17 +307,26 @@ const changeCardColor = (targetDragAndDrop) => {
 	switch (dataPlaceTarget) {
 		case '1':
 			lineColor.classList.replace(lineColor.classList[1], 'bgc-blue');
-			arrowIcon.removeChild(back);
-			//arrowIcon.appendChild(forward);
+
+			while (arrowIcon.children[0]) {
+				arrowIcon.removeChild(arrowIcon.children[0]);
+			}
+
+			arrowIcon.appendChild(forward);
+
 			break;
 		case '2':
 			lineColor.classList.replace(lineColor.classList[1], 'bgc-purple');
-			arrowIcon.removeChild(back, forward);
-			arrowIcon.appendChild(back, forward);
+			while (arrowIcon.children[0]) {
+				arrowIcon.removeChild(arrowIcon.children[0]);
+			}
+			arrowIcon.append(back, forward);
 			break;
 		case '3':
 			lineColor.classList.replace(lineColor.classList[1], 'bgc-turquoise');
-			arrowIcon.removeChild(forward, back);
+			while (arrowIcon.children[0]) {
+				arrowIcon.removeChild(arrowIcon.children[0]);
+			}
 			arrowIcon.appendChild(back);
 			break;
 	}
