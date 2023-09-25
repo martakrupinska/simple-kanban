@@ -163,10 +163,6 @@ input[type='text'] {
 	width: 50%;
 }
 
-input[type='text']::placeholder {
-	color: #9b59b6;
-}
-
 button {
 	width: 70px;
 	padding: 4px;

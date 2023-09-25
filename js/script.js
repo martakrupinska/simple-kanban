@@ -262,12 +262,10 @@ const checkWeekNumber = (card) => {
 	if (currentWeekNumber >= weekNumber[0]) {
 		if (!warning) {
 			week.classList.add('warning-color');
-			console.log(warning);
 		}
 	} else {
 		if (warning) {
-			week.classList.remove('warning-colo');
-			console.log(warning);
+			week.classList.remove('warning-color');
 		}
 	}
 };
