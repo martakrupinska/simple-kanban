@@ -205,10 +205,10 @@ const addNewTask = () => {
 	divWithBtn.append(btnEdit, btnDelete);
 
 	const divWithArrowBtn = document.createElement('div');
+	divWithArrowBtn.classList.add('arrow');
 	actionIconClass.appendChild(divWithArrowBtn);
 
 	const btnArrow = document.createElement('span');
-	btnArrow.classList.add('arrow');
 	btnArrow.classList.add('material-symbols-outlined');
 	btnArrow.textContent = 'arrow_forward';
 	btnArrow.title = 'Przesuń w prawo';
