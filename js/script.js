@@ -110,33 +110,6 @@ const removeToolTip = () => {
 	toolTip.remove();
 };
 
-const checkCurrentWeekNumber = () => {
-	let currentWeekNumber;
-
-	const currentDay = new Date();
-	const currentYear = currentDay.getFullYear();
-	const firstJanuary = new Date(`${currentYear}-01-01`);
-
-	dayOfYear = Math.round(
-		(currentDay.getTime() - firstJanuary.getTime()) / (3600 * 24 * 1000)
-	);
-	console.log(dayOfYear);
-
-	console.log(`modulo: ` + (dayOfYear % 7));
-
-	if (dayOfYear % 7 === 0) {
-		currentWeekNumber = dayOfYear / 7 - 1;
-	} else {
-		currentWeekNumber = Math.floor(dayOfYear / 7);
-	}
-	if (firstJanuary.getDay() < 5) {
-		currentWeekNumber += 1;
-	}
-
-	console.log(currentWeekNumber);
-	return currentWeekNumber;
-};
-
 const addTask = () => {
 	const card = document.createElement('div');
 	card.classList.add('card');
