@@ -1,15 +1,12 @@
 let InputPanel;
 let exapndMoreIcon;
-let titleInput;
-let weekInput;
-let btnAddOrSave;
 let actionIcons;
 let card;
-let title;
-let weekInfo;
+let titleInput;
+let weekInput;
+let toolTip;
 let dragged = null;
 let states;
-let toolTip;
 let arrowIcons;
 
 const main = () => {
@@ -21,9 +18,8 @@ const prepareDOMElements = () => {
 	exapndMoreIcon = document.querySelector('.expand-more-icon');
 	InputPanel = document.querySelector('.inputPanel');
 
-	titleInput = InputPanel.querySelector("input[type='text']");
-	weekInput = InputPanel.querySelector("input[type='week']");
-	btnAddOrSave = InputPanel.querySelector('.btn-add');
+	titleInput = InputPanel.children.title; //InputPanel.querySelector("input[type='text']");
+	weekInput = InputPanel.children.week; //InputPanel.querySelector("input[type='week']");
 
 	states = document.querySelectorAll('[data-place]');
 	actionIcons = document.querySelectorAll('.action-icon div');
@@ -33,10 +29,10 @@ const prepareDOMElements = () => {
 
 const prepareDOMEvents = () => {
 	exapndMoreIcon.addEventListener('click', showInputPanel);
-	btnAddOrSave.addEventListener('click', saveChangesOrAddNewTask);
+
 	InputPanel.addEventListener('keydown', enterKey);
 	actionIcons.forEach((actionIcon) => {
-		actionIcon.addEventListener('click', checkClickMenu);
+		actionIcon.addEventListener('click', additionalCardActions);
 	});
 
 	arrowIcons.forEach((arrowIcon) => {
@@ -46,52 +42,61 @@ const prepareDOMEvents = () => {
 	document.addEventListener('dragstart', changeStateStart);
 	states.forEach((state) => {
 		state.addEventListener('dragover', changeStateTarget);
-		state.addEventListener('drop', chageStateStop);
+		state.addEventListener('drop', changeStateStop);
 	});
 };
 
-const showInputPanel = (e) => {
-	InputPanel.classList.toggle('hide');
-
+const createInputPanel = (e) => {
 	if (toolTip) {
 		removeToolTip();
 	}
 
-	if (InputPanel.classList.contains('hide')) {
-		exapndMoreIcon.style.transform = 'rotate(0deg)';
-	} else {
-		exapndMoreIcon.style.transform = 'rotate(-180deg)';
+	const btnSave = InputPanel.querySelector('.btn-add');
+	exapndMoreIcon.style.transform = 'rotate(-180deg)';
+	InputPanel.classList.remove('hide');
 
-		if (e.target.matches('.edit')) {
-			title = card.querySelector('.dscrpt');
-			weekInfo = card.querySelector('.week');
-			titleInput.value = title.textContent;
-			weekInput.value =
-				weekInfo !== null
-					? '2023-W' + weekInfo.textContent.match(/[0-9][0-9]$/)
-					: '';
-			btnAddOrSave.textContent = 'Zapisz';
-		} else {
-			btnAddOrSave.textContent = 'Dodaj';
-			titleInput.value = '';
-			weekInput.value = '';
-		}
+	if (e.target.matches('.edit')) {
+		const title = card.querySelector('.dscrpt');
+		const week = card.querySelector('.week');
+		titleInput.value = title.textContent;
+		weekInput.value =
+			week !== null ? '2023-W' + week.textContent.match(/[0-9][0-9]$/) : '';
+		btnSave.textContent = 'Zapisz';
+	} else {
+		btnSave.textContent = 'Dodaj';
+		titleInput.value = '';
+		InputPanel.children.week.value = '';
+	}
+	btnSave.addEventListener('click', saveChanges);
+};
+
+const hideInputPanel = () => {
+	exapndMoreIcon.style.transform = 'rotate(0deg)';
+	InputPanel.classList.add('hide');
+};
+
+const showInputPanel = (e) => {
+	if (InputPanel.classList.contains('hide')) {
+		createInputPanel(e);
+	} else {
+		hideInputPanel();
 	}
 };
 
-const saveChangesOrAddNewTask = () => {
+const saveChanges = (btnSave) => {
 	if (titleInput.value === '') {
 		createToolTip();
 		return;
 	}
 
-	if (btnAddOrSave.textContent === 'Zapisz') {
-		saveChanges();
-	} else {
-		addNewTask();
+	if (btnSave.target.textContent === 'Dodaj') {
+		addTask();
+	} else if (btnSave.target.textContent === 'Zapisz') {
+		editTask();
+		btnSave.target.textContent = 'Dodaj';
 	}
 
-	showInputPanel();
+	hideInputPanel();
 };
 
 const createToolTip = () => {
@@ -100,7 +105,6 @@ const createToolTip = () => {
 	toolTip.textContent = 'Wpisz tytuł zadania!';
 	toolTip.style.opacity = '1';
 	InputPanel.appendChild(toolTip);
-	console.log('aaa');
 };
 const removeToolTip = () => {
 	toolTip.remove();
@@ -133,62 +137,45 @@ const checkCurrentWeekNumber = () => {
 	return currentWeekNumber;
 };
 
-const addNewTask = () => {
-	/*  <div class="card">
-                    <div class="line bgc-blue"></div>
-                    <div class="info">
-                        <div class="dscrpt">Przygotowanie dokumentacji projektu X</div>
-                        <div class="week">
-                            <p>Tydzień 35</p>
-                        </div>
-                    </div>
-                    <div class="action-icon">
-                        <div>
-                            <span class="edit material-symbols-outlined">edit</span>
-                            <span class="delete material-symbols-outlined">delete</span>
-                        </div>
-                    </div>
-                </div>
-    */
+const addTask = () => {
+	const card = document.createElement('div');
+	card.classList.add('card');
+	card.setAttribute('draggable', true);
 
-	const cardClass = document.createElement('div');
-	cardClass.classList.add('card');
-	cardClass.setAttribute('draggable', true);
+	states[0].appendChild(card);
 
-	states[0].appendChild(cardClass);
+	const line = document.createElement('div');
+	line.classList.add('line');
+	line.classList.add('bgc-blue');
 
-	const lineClass = document.createElement('div');
-	lineClass.classList.add('line');
-	lineClass.classList.add('bgc-blue');
+	const info = document.createElement('div');
+	info.classList.add('info');
 
-	const infoClass = document.createElement('div');
-	infoClass.classList.add('info');
+	card.append(line, info);
 
-	cardClass.append(lineClass, infoClass);
+	const title = document.createElement('div');
+	title.classList.add('dscrpt');
 
-	const titleClass = document.createElement('div');
-	titleClass.classList.add('dscrpt');
+	title.textContent = titleInput.value;
+	title.setAttribute('title', title.textContent);
+	info.appendChild(title);
 
-	titleClass.textContent = titleInput.value;
-	titleClass.setAttribute('title', titleClass.textContent);
-	infoClass.appendChild(titleClass);
+	const week = document.createElement('div');
+	week.classList.add('week');
 
-	const weekClass = document.createElement('div');
-	weekClass.classList.add('week');
-
-	weekClass.textContent =
+	week.textContent =
 		weekInput.value !== ''
-			? 'Tydzień ' + weekInput.value.match(/[0-9][0-9]$/)
+			? 'Tydzień ' + InputPanel.children.week.value.match(/[0-9][0-9]$/)
 			: '';
-	infoClass.append(weekClass);
+	info.append(week);
 
-	const actionIconClass = document.createElement('div');
-	actionIconClass.classList.add('action-icon');
+	const actionIcon = document.createElement('div');
+	actionIcon.classList.add('action-icon');
 
-	cardClass.appendChild(actionIconClass);
+	card.appendChild(actionIcon);
 
 	const divWithBtn = document.createElement('div');
-	actionIconClass.appendChild(divWithBtn);
+	actionIcon.appendChild(divWithBtn);
 
 	const btnEdit = document.createElement('span');
 	btnEdit.classList.add('edit');
@@ -206,73 +193,67 @@ const addNewTask = () => {
 
 	const divWithArrowBtn = document.createElement('div');
 	divWithArrowBtn.classList.add('arrow');
-	actionIconClass.appendChild(divWithArrowBtn);
+	actionIcon.appendChild(divWithArrowBtn);
 
-	const btnArrow = document.createElement('span');
-	btnArrow.classList.add('material-symbols-outlined');
-	btnArrow.textContent = 'arrow_forward';
-	btnArrow.title = 'Przesuń w prawo';
+	btnArrow = createArrows().forward;
 
 	divWithArrowBtn.appendChild(btnArrow);
 
 	if (weekInput.value !== '') {
-		checkWeekNumber(cardClass);
+		addWarningColorToWeekNumber(week);
 	}
 	main();
 
 	titleInput.value = '';
-	weekInput.value = '';
+	InputPanel.children.week.value = '';
 };
 
 const enterKey = (e) => {
 	if (e.key === 'Enter') {
-		saveChangesOrAddNewTask();
+		saveChanges();
 	}
 };
 
-const checkClickMenu = (e) => {
+const additionalCardActions = (e) => {
 	card = e.target.closest('.card');
 	if (e.target.matches('.edit')) {
-		showInputPanel(e);
+		createInputPanel(e);
 	} else if (e.target.matches('.delete')) {
 		card.remove();
 	}
 };
 
-const saveChanges = () => {
+const editTask = () => {
+	const title = card.querySelector('.dscrpt');
+	const week = card.querySelector('.week');
+
 	title.textContent = titleInput.value;
 	title.setAttribute('title', title.textContent);
 	titleInput.value = '';
 	if (weekInput.value !== null) {
-		weekInfo.textContent = 'Tydzień ' + weekInput.value.match(/[0-9][0-9]$/);
-		checkWeekNumber(card);
+		week.textContent =
+			'Tydzień ' + InputPanel.children.week.value.match(/[0-9][0-9]$/);
+		addWarningColorToWeekNumber(week);
 	} else {
-		weekInfo.textContent = '';
+		weekInput.textContent = '';
 	}
-	btnAddOrSave.textContent = 'Dodaj';
 };
 
-const checkWeekNumber = (card) => {
+const addWarningColorToWeekNumber = (week) => {
 	const currentWeekNumber = checkCurrentWeekNumber();
 
-	const week = card.querySelector('.week');
-	let warning = week.classList.contains('warning-color');
+	const warningColor = week.classList.contains('warning-color');
 	const weekNumber = week.textContent.match(/[0-9][0-9]$/);
 
-	if (currentWeekNumber >= weekNumber[0]) {
-		if (!warning) {
-			week.classList.add('warning-color');
-		}
+	if (!warningColor && currentWeekNumber >= weekNumber[0]) {
+		week.classList.add('warning-color');
 	} else {
-		if (warning) {
-			week.classList.remove('warning-color');
-		}
+		week.classList.remove('warning-color');
 	}
 };
 
 const changeStateStart = (e) => {
 	card = e.target.closest('.card');
-	const startDragAndDrop = e.target.closest('[data-place]');
 	if (card) {
 		dragged = e.target;
 	}
@@ -280,21 +261,19 @@ const changeStateStart = (e) => {
 const changeStateTarget = (e) => {
 	e.preventDefault();
 };
-const chageStateStop = (e) => {
+const changeStateStop = (e) => {
 	e.preventDefault();
 	const targetDragAndDrop = e.target.closest('[data-place]');
 
 	if (targetDragAndDrop) {
 		dragged.parentNode.removeChild(dragged);
 		targetDragAndDrop.appendChild(dragged);
-		changeCardColor(targetDragAndDrop);
+
+		changeState(targetDragAndDrop.getAttribute('data-place'), dragged);
 	}
 };
 
-const changeState = (state, card) => {
-	const lineColor = card.querySelector('.line');
-	const arrowIcon = card.querySelector('.arrow');
-
+function createArrows() {
 	const back = document.createElement('span');
 	back.classList.add('material-symbols-outlined');
 	back.textContent = 'arrow_back';
@@ -305,38 +284,35 @@ const changeState = (state, card) => {
 	forward.textContent = 'arrow_forward';
 	forward.title = 'Przesuń w prawo';
 
+	return { back: back, forward: forward };
+}
+
+const changeState = (state, card) => {
+	const lineColor = card.querySelector('.line');
+	const arrowIcon = card.querySelector('.arrow');
+
+	arrows = createArrows();
+
+	while (arrowIcon.children[0]) {
+		arrowIcon.removeChild(arrowIcon.children[0]);
+	}
+
 	switch (parseInt(state)) {
 		case 1:
 			lineColor.classList.replace(lineColor.classList[1], 'bgc-blue');
-
-			while (arrowIcon.children[0]) {
-				arrowIcon.removeChild(arrowIcon.children[0]);
-			}
-			arrowIcon.appendChild(forward);
+			arrowIcon.appendChild(arrows.forward);
 			break;
 
 		case 2:
 			lineColor.classList.replace(lineColor.classList[1], 'bgc-purple');
-			while (arrowIcon.children[0]) {
-				arrowIcon.removeChild(arrowIcon.children[0]);
-			}
-			arrowIcon.append(back, forward);
+			arrowIcon.append(arrows.back, arrows.forward);
 			break;
 
 		case 3:
 			lineColor.classList.replace(lineColor.classList[1], 'bgc-turquoise');
-			while (arrowIcon.children[0]) {
-				arrowIcon.removeChild(arrowIcon.children[0]);
-			}
-			arrowIcon.appendChild(back);
+			arrowIcon.appendChild(arrows.back);
 			break;
 	}
-};
-
-const changeCardColor = (targetDragAndDrop) => {
-	const dataPlaceTarget = targetDragAndDrop.getAttribute('data-place');
-
-	changeState(dataPlaceTarget, dragged);
 };
 
 const clickArrowIcon = (e) => {
