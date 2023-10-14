@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 
 <head>
     <meta charset="UTF-8">
@@ -16,152 +16,171 @@
 </head>
 
 <body>
-    <div class="table-main">
-        <div class="board ">
-            <div class="expand-more-panel expand-more-icon-place">
-                <span class="material-symbols-outlined expand-more-icon">
-                    expand_more
-                </span>
+    <div class="container">
+        <section class="container__cards">
+            <div class="card__expand-more-panel">
+                <button class="card__expand-more-panel--button material-symbols-outlined">expand_more</button>
             </div>
-            <div class="head bgc-blue">
-                <p>To do</p>
+            <div class="cards cards__header cards__header--blue">
+                <p class="cards__dscrpt">To do</p>
+            </div>
+            <div class="cards cards__header cards__header--purple">
+                <p class="cards__dscrpt">In progress</p>
+            </div>
+            <div class="cards cards__header cards__header--turquoise">
+                <p class="cards__dscrpt">Done</p>
+            </div>
+        </section>
 
-                <!--  <span class="material-symbols-outlined">add</span> -->
-            </div>
-            <div class="head bgc-purple">
-                <p>In progress</p>
-            </div>
-            <div class="head bgc-turquoise">
-                <p>Done</p>
-            </div>
-        </div>
+        <form class="form-panel hide">
+            <input class="form-panel__input form-panel__input--text" type="text" name="title"
+                placeholder="Tytuł"></input>
+            <input class="form-panel__input" type="week" name="week"></input>
+            <button class="form-panel__button" type="submit">Dodaj</button>
+        </form>
 
-        <div class="inputPanel hide">
-            <input type="text" name="title" placeholder="Tytuł">
-            <!-- <div class="toolTip">Wpisz tytuł zadania!</div> -->
-            </input>
-            <input type="week" name="week"></input>
-            <button class="btn-add">Dodaj</button>
-        </div>
-
-        <div class="board">
-            <div class="expand-more-panel"></div>
-            <div class="bcg-card-board" data-place="1">
-                <div class="card" draggable="true">
-                    <div class="line bgc-blue"></div>
-                    <div class="info">
-                        <div class="dscrpt" title="Przygotowanie dokumentacji projektu X">Przygotowanie dokumentacji
-                            projektu X</div>
-                        <div class="week ">Tydzień 45</div>
-                    </div>
-                    <div class="action-icon">
-                        <div>
-                            <span class="edit material-symbols-outlined" title="Edytuj">edit</span>
-                            <span class="delete material-symbols-outlined" title="Usuń">delete</span>
+        <section class="container__cards">
+            <div class="card__expand-more-panel"></div>
+            <div class="cards cards__board" data-place="1">
+                <ul>
+                    <li class="card" draggable="true">
+                        <div class="card__line card__line--blue"></div>
+                        <div class="card__info">
+                            <p class="info__dscrpt" title="Przygotowanie dokumentacji projektu X">Przygotowanie
+                                dokumentacji projektu X</p>
+                            <time class="info__week">Tydzień 45</time>
                         </div>
-                        <div class="arrow">
-                            <span class="material-symbols-outlined" title="Przesuń w prawo">arrow_forward</span>
+                        <div class="card__action">
+                            <div class="action__buttons">
+                                <button class="action__button action__buttons--edit material-symbols-outlined"
+                                    title="Edytuj">edit</button>
+                                <button class="action__button action__buttons--delete material-symbols-outlined"
+                                    title="Usuń">delete</button>
+                            </div>
+                            <div class="">
+                                <button class="action__button material-symbols-outlined"
+                                    title="Przesuń w prawo">arrow_forward</button>
+                            </div>
                         </div>
-                    </div>
-
-                </div>
-                <div class="card" draggable="true">
-                    <div class="line bgc-blue"></div>
-                    <div class="info">
-                        <div class="dscrpt" title="Przygotowanie raportu - statystyki sprzedażowe">Przygotowanie
-                            raportu- statystyki sprzedażowe</div>
-                        <div class="week warning-color">Tydzień 34</div>
-                    </div>
-                    <div class="action-icon">
-                        <div>
-                            <span class="edit material-symbols-outlined" title="Edytuj">edit</span>
-                            <span class="delete material-symbols-outlined" title="Usuń">delete</span>
+                    </li>
+                    <li class="card" draggable="true">
+                        <div class="card__line card__line--blue"></div>
+                        <div class="card__info">
+                            <p class="info__dscrpt" title="Przygotowanie raportu - statystyki sprzedażowe">Przygotowanie
+                                raportu- statystyki sprzedażowe</p>
+                            <time class="info__week info__week--warning">Tydzień 34</time>
                         </div>
-                        <div class="arrow">
-                            <span class="material-symbols-outlined" title="Przesuń w prawo">arrow_forward</span>
+                        <div class="card__action">
+                            <div class="action__buttons">
+                                <button class="action__button action__buttons--edit material-symbols-outlined"
+                                    title="Edytuj">edit</butt>
+                                    <button class="action__button action__buttons--delete material-symbols-outlined"
+                                        title="Usuń">delete</button>
+                            </div>
+                            <div class="arrow">
+                                <button class="action__button material-symbols-outlined"
+                                    title="Przesuń w prawo">arrow_forward</button>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </li>
+                </ul>
             </div>
-            <div class="bcg-card-board" data-place="2">
-                <div class="card" draggable="true">
-                    <div class="line bgc-purple"></div>
-                    <div class="info">
-                        <div class="dscrpt" title="Spotkanie z klientem">Spotkanie z klientem</div>
-                        <div class="week">Tydzień 43</div>
-                    </div>
-                    <div class="action-icon">
-                        <div>
-                            <span class="edit material-symbols-outlined" title="Edytuj">edit</span>
-                            <span class="delete material-symbols-outlined" title="Usuń">delete</span>
+            <div class="cards cards__board" data-place="2">
+                <ul>
+                    <li class="card" draggable="true">
+                        <div class="card__line card__line--purple"></div>
+                        <div class="card__info">
+                            <p class="info__dscrpt" title="Spotkanie z klientem">Spotkanie z klientem</p>
+                            <time class="info__week">Tydzień 43</time>
                         </div>
-                        <div class="arrow">
-                            <span class="material-symbols-outlined" title="Przesuń w lewo">arrow_back</span>
-                            <span class="material-symbols-outlined" title="Przesuń w prawo">arrow_forward</span>
+                        <div class="card__action">
+                            <div class="action__buttons">
+                                <button class="action__button action__buttons--edit material-symbols-outlined"
+                                    title="Edytuj">edit</button>
+                                <button class="action__button action__buttons--delete  material-symbols-outlined"
+                                    title="Usuń">delete</button>
+                            </div>
+                            <div class="arrow">
+                                <button class="action__button material-symbols-outlined"
+                                    title="Przesuń w prawo">arrow_forward</button>
+                                <button class="action__button material-symbols-outlined"
+                                    title="Przesuń w lewo">arrow_back</button>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="card" draggable="true">
-                    <div class="line bgc-purple"></div>
-                    <div class="info">
-                        <div class="dscrpt" title="Przygotowanie raportu">Przygotowanie raportu</div>
-                        <div class="week warning-color">Tydzień 33</div>
-                    </div>
-                    <div class="action-icon">
-                        <div>
-                            <span class="edit material-symbols-outlined" title="Edytuj">edit</span>
-                            <span class="delete material-symbols-outlined" title="Usuń">delete</span>
+                    </li>
+                    <li class="card" draggable="true">
+                        <div class="card__line card__line--purple"></div>
+                        <div class="card__info">
+                            <p class="info__dscrpt" title="Przygotowanie raportu">Przygotowanie raportu</p>
+                            <time class="info__week info__week--warning">Tydzień 33</time>
                         </div>
-                        <div class="arrow">
-                            <span class="material-symbols-outlined" title="Przesuń w lewo">arrow_back</span>
-                            <span class="material-symbols-outlined" title="Przesuń w prawo">arrow_forward</span>
-                        </div>
+                        <div class="card__action">
+                            <div class="action__buttons">
+                                <button class="action__button action__buttons--edit material-symbols-outlined"
+                                    title="Edytuj">edit</button>
+                                <button class="action__button action__buttons--delete  material-symbols-outlined"
+                                    title="Usuń">delete</button>
+                            </div>
+                            <div class="arrow">
 
-                    </div>
-                </div>
-                <div class="card" draggable="true">
-                    <div class="line bgc-purple"></div>
-                    <div class="info">
-                        <div class="dscrpt" title="Szkolenie klienta">Szkolenie klienta</div>
-                        <div class="week">Tydzień 50</div>
-                    </div>
-                    <div class="action-icon">
-                        <div>
-                            <span class="edit material-symbols-outlined" title="Edytuj">edit</span>
-                            <span class="delete material-symbols-outlined" title="Usuń">delete</span>
+                                <button class="action__button material-symbols-outlined"
+                                    title="Przesuń w prawo">arrow_forward</button>
+                                <button class="action__button material-symbols-outlined"
+                                    title="Przesuń w lewo">arrow_back</button>
+                            </div>
                         </div>
-                        <div class="arrow">
-                            <span class="material-symbols-outlined" title="Przesuń w lewo">arrow_back</span>
-                            <span class="material-symbols-outlined" title="Przesuń w prawo">arrow_forward</span>
+                    </li>
+                    <li class="card" draggable="true">
+                        <div class="card__line card__line--purple"></div>
+                        <div class="card__info">
+                            <p class="info__dscrpt" title="Szkolenie klienta">Szkolenie klienta</p>
+                            <time class="info__week info__week--warning">Tydzień 50</time>
                         </div>
-                    </div>
-                </div>
+                        <div class="card__action">
+                            <div class="action__buttons">
+                                <button class="action__button action__buttons--edit material-symbols-outlined"
+                                    title="Edytuj">edit</button>
+                                <button class="action__button action__buttons--delete  material-symbols-outlined"
+                                    title="Usuń">delete</button>
+                            </div>
+                            <div class="arrow">
+
+                                <button class="action__button material-symbols-outlined"
+                                    title="Przesuń w prawo">arrow_forward</button>
+                                <button class="action__button material-symbols-outlined"
+                                    title="Przesuń w lewo">arrow_back</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <div class="bcg-card-board" data-place="3">
-                <div class="card" draggable="true">
-                    <div class="line bgc-turquoise"></div>
-                    <div class="info">
-                        <div class="dscrpt" title="Przygotowanie harmonogramu wdrożenia">Przygotowanie harmonogramu
-                            wdrożenia</div>
-                        <div class="week">Tydzień 40</div>
-                    </div>
-                    <div class="action-icon">
-                        <div>
-                            <span class="edit material-symbols-outlined" title="Edytuj">edit</span>
-                            <span class="delete material-symbols-outlined" title="Usuń">delete</span>
+            <div class="cards cards__board" data-place="3">
+                <ul>
+                    <li class="card" draggable="true">
+                        <div class="card__line card__line--turquoise"></div>
+                        <div class="card__info">
+                            <p class="info__dscrpt" title="Przygotowanie harmonogramu wdrożenia">Przygotowanie
+                                harmonogramu wdrożenia</p>
+                            <time class="info__week">Tydzień 40</time>
                         </div>
-                        <div class="arrow">
-                            <span class="material-symbols-outlined" title="Przesuń w lewo">arrow_back</span>
+                        <div class="card__action">
+                            <div class="action__buttons">
+                                <button class="action__button action__buttons--edit material-symbols-outlined"
+                                    title="Edytuj">edit</button>
+                                <button class="action__button action__buttons--delete material-symbols-outlined"
+                                    title="Usuń">delete</button>
+                            </div>
+                            <div class="arrow">
+                                <button class="action__button material-symbols-outlined"
+                                    title="Przesuń w lewo">arrow_back</button>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </li>
+                </ul>
             </div>
-        </div>
+        </section>
     </div>
 
-
-
-    <!--  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
     <script src="js/numberOfWeek.js"></script>
     <script src="js/script.js"></script>
 </body>
