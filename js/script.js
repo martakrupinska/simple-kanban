@@ -1,3 +1,4 @@
+import { createElementAndAddClassList } from './additionalFunctions.js';
 let InputPanel;
 let exapndMoreIcon;
 let actionIcons;
@@ -87,7 +88,6 @@ const showInputPanel = (e) => {
 };
 
 function saveChanges(btnSave) {
-
 	if (titleInput.value === '') {
 		createToolTip();
 		return;
@@ -116,70 +116,58 @@ const removeToolTip = () => {
 
 const addTask = () => {
 	const ulList = states[0].querySelector('ul');
-	const card = document.createElement('li');
-	card.classList.add('card');
-	card.setAttribute('draggable', true);
 
+	const card = createElementAndAddClassList('li', ['card']);
+	card.setAttribute('draggable', true);
 	ulList.appendChild(card);
 
-	const line = document.createElement('div');
-	line.classList.add('card__line', 'card__line--blue');
-
-	const info = document.createElement('div');
-	info.classList.add('card__info');
-
+	const line = createElementAndAddClassList('div', [
+		'card__line',
+		'card__line--blue',
+	]);
+	const info = createElementAndAddClassList('div', ['card__info']);
 	card.append(line, info);
 
-	const title = document.createElement('p');
-	title.classList.add('info__dscrpt');
-
+	const title = createElementAndAddClassList('p', ['info__dscrpt']);
 	title.textContent = titleInput.value;
 	title.setAttribute('title', title.textContent);
 	info.appendChild(title);
 
-	const week = document.createElement('time');
-	week.classList.add('info__week');
-
+	const week = createElementAndAddClassList('time', ['info__week']);
 	week.textContent =
 		weekInput.value !== ''
 			? 'Tydzień ' + InputPanel.children.week.value.match(/[0-9][0-9]$/)
 			: '';
 	info.append(week);
 
-	const actionIcon = document.createElement('div');
-	actionIcon.classList.add('card__action');
-
+	const actionIcon = createElementAndAddClassList('div', ['card__action']);
 	card.appendChild(actionIcon);
 
-	const divWithBtn = document.createElement('div');
-	divWithBtn.classList.add('action__buttons');
+	const divWithBtn = createElementAndAddClassList('div', ['action__buttons']);
 	actionIcon.appendChild(divWithBtn);
 
-	const btnEdit = document.createElement('button');
-	btnEdit.classList.add(
+	const btnEdit = createElementAndAddClassList('button', [
 		'action__button',
 		'action__buttons--edit',
-		'material-symbols-outlined'
-	);
+		'material-symbols-outlined',
+	]);
 	btnEdit.textContent = 'edit';
 	btnEdit.title = 'Edytuj';
 
-	const btnDelete = document.createElement('button');
-	btnDelete.classList.add(
+	const btnDelete = createElementAndAddClassList('button', [
 		'action__button',
 		'action__buttons--delete',
-		'material-symbols-outlined'
-	);
+		'material-symbols-outlined',
+	]);
 	btnDelete.textContent = 'delete';
 	btnDelete.title = 'Usuń';
 
 	divWithBtn.append(btnEdit, btnDelete);
 
-	const divWithArrowBtn = document.createElement('div');
-	divWithArrowBtn.classList.add('arrow');
+	const divWithArrowBtn = createElementAndAddClassList('div', ['arrow']);
 	actionIcon.appendChild(divWithArrowBtn);
 
-	btnArrow = createArrows().forward;
+	const btnArrow = createArrows().forward;
 
 	divWithArrowBtn.appendChild(btnArrow);
 
