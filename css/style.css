@@ -3,6 +3,7 @@
 	--background-color: #bdc3c7;
 	--purple-color: #9b59b6;
 	--turquoise-color: #1abc9c;
+	--green-color: #2ecc71;
 	--blue-color: #3498db;
 	--border-radius-main: 5px;
 	--main-backgroud-color: #2c3e50;
@@ -62,7 +63,7 @@ body {
 .cards__header {
 	font-size: 20px;
 	height: calc(var(--hight-card) / 2);
-	align-items: center;
+	justify-content: center;
 }
 
 .cards__header--purple {
@@ -118,6 +119,7 @@ body {
 }
 .cards__board {
 	background-color: var(--background-color);
+	justify-content: space-between;
 }
 
 .card {
@@ -216,13 +218,24 @@ body {
 	display: none;
 }
 
-.toolTip {
+.input__toolTip {
 	position: absolute;
 	display: block;
 	color: #e74c3c;
 	right: 50%;
 	padding: 0 5px;
-	/*opacity: 0; */
+	/* opacity: 0; */
+}
+.board_button {
+	opacity: 1;
+	text-align: end;
+}
+
+.board_button--add {
+	color: var(--turquoise-color);
+	background-color: transparent;
+	border: 0;
+	cursor: pointer;
 }
 
 @media (min-width: 672px) and (max-width: 990px) {
@@ -287,6 +300,9 @@ body {
 	}
 	.form-panel__input--text {
 		width: 50%;
+	}
+	.board_button {
+		opacity: 0;
 	}
 }
 /* 

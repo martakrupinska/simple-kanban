@@ -1,6 +1,8 @@
 import { createElementAndAddClassList } from './additionalFunctions.js';
+
 let InputPanel;
 let exapndMoreIcon;
+let addNewTaskBtn;
 let actionIcons;
 let card;
 let titleInput;
@@ -17,6 +19,7 @@ const main = () => {
 
 const prepareDOMElements = () => {
 	exapndMoreIcon = document.querySelector('.card__expand-more-panel--button');
+	addNewTaskBtn = document.querySelector('.board_button--add');
 	InputPanel = document.querySelector('.form-panel');
 
 	titleInput = InputPanel.children.title; //InputPanel.querySelector("input[type='text']");
@@ -30,6 +33,7 @@ const prepareDOMElements = () => {
 
 const prepareDOMEvents = () => {
 	exapndMoreIcon.addEventListener('click', showInputPanel);
+	addNewTaskBtn.addEventListener('click', showInputPanel);
 
 	InputPanel.addEventListener('keydown', enterKey);
 	actionIcons.forEach((actionIcon) => {
@@ -61,12 +65,15 @@ const createInputPanel = (e) => {
 		const week = card.querySelector('.info__week');
 		titleInput.value = title.textContent;
 		weekInput.value =
-			week !== null ? '2023-W' + week.textContent.match(/[0-9][0-9]$/) : '';
+			week.textContent !== ''
+				? '2023-W' + week.textContent.match(/[0-9][0-9]$/)
+				: '';
+
 		btnSave.textContent = 'Zapisz';
 	} else {
 		btnSave.textContent = 'Dodaj';
 		titleInput.value = '';
-		InputPanel.children.week.value = '';
+		weekInput.value = '';
 	}
 	btnSave.addEventListener('click', function (evt) {
 		evt.preventDefault();
@@ -88,6 +95,7 @@ const showInputPanel = (e) => {
 };
 
 function saveChanges(btnSave) {
+	console.log('saveChanges' + titleInput.value);
 	if (titleInput.value === '') {
 		createToolTip();
 		return;
@@ -104,13 +112,13 @@ function saveChanges(btnSave) {
 }
 
 const createToolTip = () => {
-	toolTip = document.createElement('div');
-	toolTip.classList.add('toolTip');
+	toolTip = createElementAndAddClassList('div', ['input__toolTip']);
 	toolTip.textContent = 'Wpisz tytuł zadania!';
-	toolTip.style.opacity = '1';
+	//toolTip.style.opacity = '1';
 	InputPanel.appendChild(toolTip);
 };
 const removeToolTip = () => {
+	//toolTip.style.opacity = '0';
 	toolTip.remove();
 };
 
@@ -202,12 +210,13 @@ const editTask = () => {
 	title.textContent = titleInput.value;
 	title.setAttribute('title', title.textContent);
 	titleInput.value = '';
-	if (weekInput.value !== null) {
+
+	if (weekInput.value !== '') {
 		week.textContent =
 			'Tydzień ' + InputPanel.children.week.value.match(/[0-9][0-9]$/);
 		addWarningColorToWeekNumber(week);
 	} else {
-		weekInput.textContent = '';
+		weekInput.value = '';
 	}
 };
 
@@ -263,7 +272,7 @@ const changeState = (state, card) => {
 	const lineColor = card.querySelector('.card__line');
 	const arrowIcon = card.querySelector('.arrow');
 
-	arrows = createArrows();
+	const arrows = createArrows();
 
 	while (arrowIcon.children[0]) {
 		arrowIcon.removeChild(arrowIcon.children[0]);
@@ -307,7 +316,8 @@ const clickArrowIcon = (e) => {
 	}
 
 	if (target) {
-		const targetPlace = document.querySelector(`[data-place="` + target + `"]`);
+		const dataPlace = document.querySelector(`[data-place="` + target + `"]`);
+		const targetPlace = dataPlace.querySelector('ul');
 		card.parentNode.removeChild(card);
 		targetPlace.appendChild(card);
 	}
