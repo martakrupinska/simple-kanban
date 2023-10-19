@@ -305,24 +305,3 @@ body {
 		opacity: 0;
 	}
 }
-/* 
-@media (max-width: 672px) {
-
-	
-	.dscrpt {
-		font-size: 13px;
-		hyphens: auto;
-	}
-	.action-icon {
-		flex-direction: row;
-		width: 100%;
-	}
-
-
-	.arrow {
-		opacity: 1;
-	}
-}
-
-
- */
