@@ -44,6 +44,15 @@ const prepareDOMEvents = () => {
 		arrowIcon.addEventListener('click', clickArrowIcon);
 	});
 
+	InputPanel.addEventListener(
+		'submit',
+		function (evt) {
+			evt.preventDefault();
+			saveChanges();
+		},
+		{ capture: true }
+	);
+
 	document.addEventListener('dragstart', changeStateStart);
 	states.forEach((state) => {
 		state.addEventListener('dragover', changeStateTarget);
@@ -51,9 +60,16 @@ const prepareDOMEvents = () => {
 	});
 };
 
+const createToolTip = () => {
+	toolTip = createElementAndAddClassList('div', ['input__toolTip']);
+	toolTip.textContent = 'Wpisz tytuł zadania!';
+	//toolTip.style.opacity = '1';
+	InputPanel.appendChild(toolTip);
+};
+
 const createInputPanel = (e) => {
 	if (toolTip) {
-		removeToolTip();
+		toolTip.remove();
 	}
 
 	const btnSave = InputPanel.querySelector('.form-panel__button');
@@ -75,10 +91,6 @@ const createInputPanel = (e) => {
 		titleInput.value = '';
 		weekInput.value = '';
 	}
-	btnSave.addEventListener('click', function (evt) {
-		evt.preventDefault();
-		saveChanges(btnSave);
-	});
 };
 
 const hideInputPanel = () => {
@@ -94,8 +106,8 @@ const showInputPanel = (e) => {
 	}
 };
 
-function saveChanges(btnSave) {
-	console.log('saveChanges' + titleInput.value);
+function saveChanges() {
+	const btnSave = InputPanel.querySelector('.form-panel__button');
 	if (titleInput.value === '') {
 		createToolTip();
 		return;
@@ -111,20 +123,8 @@ function saveChanges(btnSave) {
 	hideInputPanel();
 }
 
-const createToolTip = () => {
-	toolTip = createElementAndAddClassList('div', ['input__toolTip']);
-	toolTip.textContent = 'Wpisz tytuł zadania!';
-	//toolTip.style.opacity = '1';
-	InputPanel.appendChild(toolTip);
-};
-const removeToolTip = () => {
-	//toolTip.style.opacity = '0';
-	toolTip.remove();
-};
-
 const addTask = () => {
 	const ulList = states[0].querySelector('ul');
-
 	const card = createElementAndAddClassList('li', ['card']);
 	card.setAttribute('draggable', true);
 	ulList.appendChild(card);
@@ -244,13 +244,14 @@ const changeStateTarget = (e) => {
 };
 const changeStateStop = (e) => {
 	e.preventDefault();
-	const targetDragAndDrop = e.target.closest('[data-place]');
+	const dataPlace = e.target.closest('[data-place]');
+	const targetDragAndDrop = dataPlace.querySelector('ul');
 
 	if (targetDragAndDrop) {
 		dragged.parentNode.removeChild(dragged);
 		targetDragAndDrop.appendChild(dragged);
 
-		changeState(targetDragAndDrop.getAttribute('data-place'), dragged);
+		changeState(dataPlace.getAttribute('data-place'), dragged);
 	}
 };
 
