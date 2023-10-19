@@ -44,6 +44,15 @@ const prepareDOMEvents = () => {
 		arrowIcon.addEventListener('click', clickArrowIcon);
 	});
 
+	InputPanel.addEventListener(
+		'submit',
+		function (evt) {
+			evt.preventDefault();
+			saveChanges();
+		},
+		{ capture: true }
+	);
+
 	document.addEventListener('dragstart', changeStateStart);
 	states.forEach((state) => {
 		state.addEventListener('dragover', changeStateTarget);
@@ -59,10 +68,8 @@ const createToolTip = () => {
 };
 
 const createInputPanel = (e) => {
-	console.log(e);
 	if (toolTip) {
 		toolTip.remove();
-		console.log(toolTip);
 	}
 
 	const btnSave = InputPanel.querySelector('.form-panel__button');
@@ -84,15 +91,6 @@ const createInputPanel = (e) => {
 		titleInput.value = '';
 		weekInput.value = '';
 	}
-	InputPanel.addEventListener(
-		'submit',
-		function (evt) {
-			console.log(evt.currentTarget, evt.target);
-			evt.preventDefault();
-			saveChanges();
-		},
-		{ capture: true }
-	);
 };
 
 const hideInputPanel = () => {
@@ -110,7 +108,6 @@ const showInputPanel = (e) => {
 
 function saveChanges() {
 	const btnSave = InputPanel.querySelector('.form-panel__button');
-	console.log('saveChanges ' + titleInput.value, weekInput.value);
 	if (titleInput.value === '') {
 		createToolTip();
 		return;
@@ -128,7 +125,6 @@ function saveChanges() {
 
 const addTask = () => {
 	const ulList = states[0].querySelector('ul');
-
 	const card = createElementAndAddClassList('li', ['card']);
 	card.setAttribute('draggable', true);
 	ulList.appendChild(card);
